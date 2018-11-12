@@ -4,13 +4,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <com.chinamall21.mobile.study.view.PullRefreshRv
 
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+    </com.chinamall21.mobile.study.view.PullRefreshRv>
 
 
 </RelativeLayout>

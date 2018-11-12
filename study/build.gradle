@@ -37,5 +37,5 @@ dependencies {
     compile 'com.facebook.fresco:fresco:1.5.0'
     implementation 'com.android.support:recyclerview-v7:27.0.2'
     compile 'com.google.code.gson:gson:2.7'
-
+    compile 'com.android.support:design:25.2.0'
 }

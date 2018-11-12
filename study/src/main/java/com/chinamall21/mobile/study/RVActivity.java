@@ -3,12 +3,14 @@ package com.chinamall21.mobile.study;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.chinamall21.mobile.study.adapter.Rvadapter;
 import com.chinamall21.mobile.study.bean.DataBean;
+import com.chinamall21.mobile.study.utils.Images;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -49,28 +51,18 @@ public class RVActivity extends AppCompatActivity {
         DataBean dataBean = gson.fromJson(data, DataBean.class);
         List<DataBean.DatasBean> list = new ArrayList<>();
         list.addAll(dataBean.getCitys());
-
-        int count = 0;
-        for (int i = 0; i < dataBean.getCitys().size(); i++) {
-            if (i != 0) {
-                DataBean.DatasBean bean1 = dataBean.getCitys().get(i);
-                DataBean.DatasBean bean2 = dataBean.getCitys().get(i - 1);
-                if (bean1.getPinyin().charAt(0) != bean2.getPinyin().charAt(0)) {
-                    DataBean.DatasBean b = new DataBean.DatasBean();
-                    b.setTitle(true);
-                    b.setPinyin(bean1.getPinyin().charAt(0)+"");
-                    list.add(i+count , b);
-                    count++;
-                }
-            }
+        for (int i = 0; i < list.size(); i++) {
+            DataBean.DatasBean bean = list.get(i);
+            bean.setImg(Images.imageUrls[i % 8]);
         }
         //mRecyclerView.addItemDecoration(new MyItemDecoration(dataBean.getCitys(), this));
-
         DataBean.DatasBean b = new DataBean.DatasBean();
         b.setTitle(true);
         b.setPinyin("A");
-        list.add(0 , b);
-        //mRecyclerView.addItemDecoration(new HeaderItemDecoration(this,list));
+        //list.add(0 , b);
+
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
         mRvadapter.setDatas(list);
 
     }

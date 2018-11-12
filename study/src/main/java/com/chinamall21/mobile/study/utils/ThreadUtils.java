@@ -76,6 +76,7 @@ public class ThreadUtils extends ThreadPoolExecutor {
 
     public ThreadUtils(int corePoolSize, int maximumPoolSize, long keepAliveTime,
                        TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory) {
+
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory);
     }
 

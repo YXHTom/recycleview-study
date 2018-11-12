@@ -7,6 +7,7 @@
     tools:context="com.chinamall21.mobile.study.MainActivity">
 
     <com.chinamall21.mobile.study.view.MyZoomView
+        android:id="@+id/iv"
         android:layout_centerInParent="true"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
@@ -14,8 +15,10 @@
 
     </com.chinamall21.mobile.study.view.MyZoomView>
 
-
-
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="click"/>
 
 </RelativeLayout>

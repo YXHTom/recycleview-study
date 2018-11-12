@@ -1,5 +1,6 @@
 package com.chinamall21.mobile.study;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class ListViewActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
+        Intent intent = getIntent();
+
         mListView = findViewById(R.id.lv);
         mImgList = Arrays.asList(Images.imageUrls);
         mListView.setAdapter(new ImageAdapter());

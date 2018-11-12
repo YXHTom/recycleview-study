@@ -76,5 +76,6 @@ public class IndexView extends View {
 
     public void setOnIndexSelectListener(OnIndexSelectListener onIndexSelectListener) {
         mOnIndexSelectListener = onIndexSelectListener;
+
     }
 }

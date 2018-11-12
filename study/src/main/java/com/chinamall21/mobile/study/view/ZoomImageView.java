@@ -3,9 +3,7 @@ package com.chinamall21.mobile.study.view;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -144,8 +142,7 @@ public class ZoomImageView extends ImageView implements ScaleGestureDetector.OnS
            // mScaleMatrix.postTranslate((width - dw) / 2, (height - dh) / 2);
             mScaleMatrix.postTranslate(0, 0);
             LogUtils.LogE((width - dw)/2 + "m  height ="+(height - dh)/2+"m");
-            mScaleMatrix
-                    .postScale(scale, scale, getWidth() / 2, getHeight() / 2);
+            mScaleMatrix.postScale(scale, scale, getWidth() / 2, getHeight() / 2);
             setImageMatrix(mScaleMatrix);
             once = false;
         }

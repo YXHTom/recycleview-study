@@ -115,6 +115,5 @@ public class MyBannerManger extends LinearLayoutManager {
         if(state == SCROLL_STATE_IDLE){
             position = getPosition(mSnapHelper.findSnapView(this))+1;
         }
-
     }
 }

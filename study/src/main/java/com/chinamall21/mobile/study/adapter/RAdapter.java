@@ -1,12 +1,10 @@
 package com.chinamall21.mobile.study.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 
 import com.chinamall21.mobile.study.R;
 import com.chinamall21.mobile.study.bean.TestBean;
-import com.chinamall21.mobile.study.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,32 +51,38 @@ public class RAdapter extends RecyclerView.Adapter {
         mTips = mHeaderView.findViewById(R.id.tv_tip);
         mProgressBar = mHeaderView.findViewById(R.id.pb);
 
-        mHeaderView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mHeaderHeight = mHeaderView.getHeight();
-                mHeaderView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+//        mHeaderView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                mHeaderHeight = mHeaderView.getHeight();
+//
+//                mHeaderView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                mRecyclerView.scrollBy(0,mHeaderHeight);
+//            }
+//        });
+//
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                if (((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() == 0) {
+//                    View view = mRecyclerView.getChildAt(0);
+//                    if (view.getY() >= -mHeaderHeight / 2) {
+//                        LogUtils.LogE("释放刷新");
+//                        mTips.setText("释放刷新");
+//                    }else {
+//                        LogUtils.LogE("下拉刷新");
+//                        mTips.setText("下拉刷新");
+//                    }
+//                }
+//            }
+//        });
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {}
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() == 0) {
-                    View view = mRecyclerView.getChildAt(0);
-                    if (view.getY() >= -mHeaderHeight / 2) {
-                        LogUtils.LogE("释放刷新");
-                        mTips.setText("释放刷新");
-                    }else {
-                        LogUtils.LogE("下拉刷新");
-                        mTips.setText("下拉刷新");
-                    }
-                }
-            }
-        });
     }
 
     @Override
@@ -160,7 +163,7 @@ public class RAdapter extends RecyclerView.Adapter {
     }
 
     class HeaderViewHolder extends RecyclerView.ViewHolder {
-        public HeaderViewHolder(View itemView) {
+        HeaderViewHolder(View itemView) {
             super(itemView);
         }
     }

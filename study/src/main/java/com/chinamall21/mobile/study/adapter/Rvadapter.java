@@ -1,14 +1,18 @@
 package com.chinamall21.mobile.study.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chinamall21.mobile.study.R;
 import com.chinamall21.mobile.study.bean.DataBean;
+import com.chinamall21.mobile.study.utils.LogUtils;
 
 import java.util.List;
 
@@ -21,8 +25,6 @@ public class Rvadapter extends RecyclerView.Adapter {
 
     private List<DataBean.DatasBean> mDatas;
     private Context mContext;
-    private static final int TITLE = 1;
-    private static final int CONTENT = 2;
 
     public Rvadapter(Context context) {
         mContext = context;
@@ -31,42 +33,24 @@ public class Rvadapter extends RecyclerView.Adapter {
     public void setDatas(List<DataBean.DatasBean> datas) {
         mDatas = datas;
         notifyDataSetChanged();
+
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType == TITLE){
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_header, parent, false);
-            TitleHolder holder = new TitleHolder(view);
-            return holder;
-        }else {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_tv, parent, false);
-            ContentHolder holder = new ContentHolder(view);
-            return holder;
-        }
 
+        RecyclerView recyclerView = new RecyclerView(parent.getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        ContentHolder holder = new ContentHolder(recyclerView);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(mDatas.get(position).isTitle()){
-            TitleHolder myHolder = (TitleHolder) holder;
-            myHolder.setData(position);
-        }else {
-            ContentHolder myHolder = (ContentHolder) holder;
-            myHolder.setData(position);
-        }
-
+        ContentHolder myHolder = (ContentHolder) holder;
+        myHolder.setData(position);
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (mDatas.get(position).isTitle()) {
-            return TITLE;
-        } else {
-            return CONTENT;
-        }
-    }
 
     @Override
     public int getItemCount() {
@@ -74,31 +58,65 @@ public class Rvadapter extends RecyclerView.Adapter {
             return mDatas.size();
         } else
             return 0;
-
     }
 
     class ContentHolder extends RecyclerView.ViewHolder {
-        TextView tv;
 
-        public ContentHolder(View itemView) {
+
+        ContentHolder(View itemView) {
             super(itemView);
-            tv = itemView.findViewById(R.id.item_tv);
+
+
         }
 
         public void setData(int position) {
-            tv.setText(mDatas.get(position).getName());
+            ((RecyclerView) itemView).setAdapter(new MyAdapter(mDatas.get(position)));
+        }
+
+        private class MyAdapter extends RecyclerView.Adapter {
+            private DataBean.DatasBean datasBean;
+
+            public MyAdapter(DataBean.DatasBean datasBean) {
+                this.datasBean = datasBean;
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_view, parent, false);
+                MyHolder myHolder = new MyHolder(view);
+                return myHolder;
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                MyHolder myHolder = (MyHolder) holder;
+                myHolder.setData(position);
+            }
+
+            @Override
+            public int getItemCount() {
+                return 3;
+            }
+
+            class MyHolder extends RecyclerView.ViewHolder {
+                ImageView iv;
+                TextView tv;
+
+                public MyHolder(View itemView) {
+                    super(itemView);
+                    iv = itemView.findViewById(R.id.iv);
+                    tv = itemView.findViewById(R.id.tv);
+                }
+
+                public void setData(int position) {
+
+                    LogUtils.LogE("pos=" + position);
+                    tv.setText(datasBean.getName() + "position" + position);
+                    Glide.with(itemView.getContext()).load(datasBean.getImg()).centerCrop().into(iv);
+                }
+            }
         }
     }
 
-    class TitleHolder extends RecyclerView.ViewHolder {
-
-        public TitleHolder(View itemView) {
-            super(itemView);
-        }
-
-        public void setData(int position) {
-            ((TextView) itemView).setText(mDatas.get(position).getPinyin().charAt(0)+"");
-        }
-    }
 
 }

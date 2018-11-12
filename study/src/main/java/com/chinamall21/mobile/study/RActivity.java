@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.chinamall21.mobile.study.adapter.RAdapter;
 import com.chinamall21.mobile.study.bean.TestBean;
 import com.chinamall21.mobile.study.utils.Images;
+import com.chinamall21.mobile.study.view.PullRefreshRv;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class RActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+    private PullRefreshRv mRecyclerView;
     private String[] mStrings = {"南京南站", "龙眠大道", "学则路", "仙鹤门", "仙鹤名苑", "紫东国际创意园!"};
     private List<TestBean> mTestBeanList;
     private RAdapter mRAdapter;
@@ -53,6 +53,7 @@ public class RActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mRAdapter);
 
     }
+
 
 
 }

@@ -41,7 +41,9 @@ public class DataBean {
         private String name;
         private String pinyin;
         private String zip;
+        private String img;
         private boolean isTitle;
+
 
         public boolean isTitle() {
             return isTitle;
@@ -81,6 +83,14 @@ public class DataBean {
 
         public void setZip(String zip) {
             this.zip = zip;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
         }
 
         @Override
