@@ -62,7 +62,7 @@ public class ListViewActivity extends AppCompatActivity {
             if (convertView == null) {
                 convertView = View.inflate(getApplicationContext(), R.layout.item_iv, null);
                 viewHolder = new ViewHolder();
-                viewHolder.imageView = convertView.findViewById(R.id.item_iv);
+                //viewHolder.imageView = convertView.findViewById(R.id.item_iv);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -77,7 +77,7 @@ public class ListViewActivity extends AppCompatActivity {
         }
 
         class ViewHolder {
-            public ImageView imageView;
+            ImageView imageView;
 
         }
     }

@@ -15,7 +15,6 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
 
     public static StudyFragment newInstance(){
         StudyFragment fragment = new StudyFragment();
-
         return fragment;
     }
 
@@ -26,6 +25,12 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
         rootView.findViewById(R.id.bt2).setOnClickListener(this);
         rootView.findViewById(R.id.bt3).setOnClickListener(this);
         rootView.findViewById(R.id.bt4).setOnClickListener(this);
+        rootView.findViewById(R.id.bt5).setOnClickListener(this);
+        rootView.findViewById(R.id.bt6).setOnClickListener(this);
+        rootView.findViewById(R.id.bt7).setOnClickListener(this);
+        rootView.findViewById(R.id.bt8).setOnClickListener(this);
+        rootView.findViewById(R.id.bt9).setOnClickListener(this);
+
     }
 
     @Override
@@ -48,6 +53,22 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
             case R.id.bt4:
                 addFragment(PullRefreshFragment.newInstance());
                 break;
+            case R.id.bt5:
+                addFragment(LayoutMangerFragment.newInstance());
+                break;
+            case R.id.bt6:
+                addFragment(JavaFragment.newInstance());
+                break;
+            case R.id.bt7:
+                addFragment(ImageFragment.newInstance());
+                break;
+            case R.id.bt8:
+                addFragment(RetrofitFragment.newInstance());
+                break;
+            case R.id.bt9:
+                addFragment(PathFragment.newInstance());
+                break;
+
         }
     }
 }

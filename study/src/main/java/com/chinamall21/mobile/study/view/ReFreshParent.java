@@ -11,13 +11,14 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.chinamall21.mobile.study.R;
+import com.chinamall21.mobile.study.utils.LogUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,8 +29,7 @@ import java.util.Date;
  */
 
 
-public class ReFreshParent extends ViewGroup implements NestedScrollingParent {
-
+public class ReFreshParent extends LinearLayout implements NestedScrollingParent {
     private boolean isMeasured;
     //刷新的头部局
     private View mHeader;
@@ -47,8 +47,8 @@ public class ReFreshParent extends ViewGroup implements NestedScrollingParent {
     //上次刷新的时间
     private long mLastTime;
     private TextView mTvTime;
-    private ValueAnimator mDownAnim;
     private ValueAnimator mUpAnim;
+    private ValueAnimator mDownAnim;
 
     private enum STATUS {
         //刷新中,下拉刷新，释放刷新
@@ -57,8 +57,8 @@ public class ReFreshParent extends ViewGroup implements NestedScrollingParent {
 
     //当前刷新状态
     private STATUS mStatus = STATUS.PULLREFRESH;
-    //上次刷新的状态
     private STATUS mLastStatus;
+
 
     public ReFreshParent(Context context) {
         this(context, null);
@@ -72,13 +72,16 @@ public class ReFreshParent extends ViewGroup implements NestedScrollingParent {
         mTvTip = view.findViewById(R.id.tv_tip);
         mArrow = view.findViewById(R.id.iv_arrow);
         mTvTime = view.findViewById(R.id.tv_time);
+
         addView(view);
+
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         mHeader.layout(0, -mHeaderHeight, getWidth(), 0);
         mContent.layout(0, 0, getWidth(), getBottom());
+        LogUtils.LogE("getBottom =" + getBottom());
     }
 
     @Override
@@ -130,9 +133,27 @@ public class ReFreshParent extends ViewGroup implements NestedScrollingParent {
                         } else {
                             scrollTo(0, 0);
                         }
-
                     }
                     return false;
+                }
+            });
+
+            mDownAnim = ValueAnimator.ofFloat(180, 360);
+            mDownAnim.setDuration(500);
+            mDownAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+
+                    mArrow.setRotation((Float) animation.getAnimatedValue());
+                }
+            });
+
+            mUpAnim = ValueAnimator.ofFloat(0, 180);
+            mUpAnim.setDuration(500);
+            mUpAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    mArrow.setRotation((Float) animation.getAnimatedValue());
                 }
             });
         }
@@ -142,76 +163,51 @@ public class ReFreshParent extends ViewGroup implements NestedScrollingParent {
      * 根据状态去改变
      */
     private void refreshByStatus(STATUS status) {
-        String format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(mLastTime));
-        switch (status) {
-            case PULLREFRESH:
-                if (status != mLastStatus) {
-                    if (mDownAnim == null) {
-                        mDownAnim = ValueAnimator.ofFloat(180, 0);
-                        mDownAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator animation) {
-                                mArrow.setRotation((Float) animation.getAnimatedValue());
-                            }
-                        });
+        if (mLastStatus != status) {
+            switch (status) {
+                case PULLREFRESH:
+                    if (mLastStatus != null) {
+                        LogUtils.LogE("PULLREFRESH");
+                        mTvTip.setText("下拉刷新");
+                        mDownAnim.start();
                     }
 
-                    mDownAnim.start();
-                    mTvTip.setText("下拉刷新");
-                    if (mLastTime != 0) {
-                        mTvTime.setText("上次刷新时间:" + format);
-                    }
-                }
-
-                break;
-            case RELEASEREFRESH:
-                if (status != mLastStatus) {
-                    if (mUpAnim == null) {
-                        mUpAnim = ValueAnimator.ofFloat(0, 180);
-                        mUpAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator animation) {
-                                mArrow.setRotation((Float) animation.getAnimatedValue());
-                            }
-                        });
-                    }
-
-                    mUpAnim.start();
-                    mTvTip.setText("释放刷新");
-                    if (mLastTime != 0) {
-                        mTvTime.setText("上次刷新时间:" + format);
-                    }
-                }
-
-                break;
-            case REFRESHING:
-                if (status != mLastStatus) {
-                    mArrow.setVisibility(INVISIBLE);
-                    mProgress.setVisibility(VISIBLE);
-
+                    break;
+                case REFRESHING:
+                    LogUtils.LogE("REFRESHING");
                     mTvTip.setText("正在刷新");
-                    scrollTo(0, -mHeaderHeight);
-                    //模拟刷新时请求网络耗时
+                    mProgress.setVisibility(VISIBLE);
+                    mArrow.setVisibility(INVISIBLE);
+                    mLastTime = System.currentTimeMillis();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            mArrow.setVisibility(VISIBLE);
                             mProgress.setVisibility(INVISIBLE);
+                            mArrow.setVisibility(VISIBLE);
                             scrollTo(0, 0);
                             mStatus = STATUS.PULLREFRESH;
-                            mLastTime = System.currentTimeMillis();
-
+                            mLastStatus = null;
+                            mTvTime.setText("上次刷新时间:" + formartTime(mLastTime));
                             //刷新完毕
                             if (mRefreshCompleteListener != null)
                                 mRefreshCompleteListener.refreshed();
-
-
                         }
-                    }, 2000);
-                }
-                break;
+                    }, 1500);
+                    break;
+
+                case RELEASEREFRESH:
+                    LogUtils.LogE("RELEASEREFRESH");
+                    mTvTip.setText("释放刷新");
+                    mUpAnim.start();
+                    break;
+            }
+            mLastStatus = status;
         }
-        mLastStatus = status;
+
+    }
+
+    private String formartTime(long time) {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time));
     }
 
     @Override

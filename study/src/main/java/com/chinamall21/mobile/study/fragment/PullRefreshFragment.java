@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.chinamall21.mobile.study.App;
 import com.chinamall21.mobile.study.R;
 import com.chinamall21.mobile.study.adapter.CommonAdapter;
 import com.chinamall21.mobile.study.base.BaseFragment;
@@ -20,7 +21,8 @@ import java.util.List;
  */
 
 
-public class PullRefreshFragment extends BaseFragment {
+public class PullRefreshFragment extends BaseFragment
+{
 
     private RecyclerView mRecyclerView;
     private ReFreshParent mReFreshParent;
@@ -40,7 +42,7 @@ public class PullRefreshFragment extends BaseFragment {
 
             @Override
             public void refreshed() {
-                Toast.makeText(getActivity(),"刷新完成",Toast.LENGTH_SHORT).show();
+                Toast.makeText(App.getmInstance(),"刷新完成",Toast.LENGTH_SHORT).show();
 
                 mList.add(0, "我是下拉出来的数据");
                 mCommonAdapter.setDatas(mList);

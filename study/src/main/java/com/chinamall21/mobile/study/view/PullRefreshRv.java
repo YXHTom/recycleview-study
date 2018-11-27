@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.chinamall21.mobile.study.utils.LogUtils;
@@ -44,30 +43,8 @@ public class PullRefreshRv extends RecyclerView {
         }
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mHeader = getChildAt(0);
-        mHeaderHeight = mHeader.getMeasuredHeight();
-        //scrollBy(0, mHeaderHeight);
-    }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        if (e.getAction() == MotionEvent.ACTION_UP) {
-            if (isEnableRefresh()) {
-                LogUtils.LogE("up释放刷新");
 
-            } else {
-                LogUtils.LogE("up下拉刷新");
-                int y = (int) mHeader.getY();
-                LogUtils.LogE("y ="+y);
-                scrollBy(0, (int) -mHeader.getY());
-            }
-
-        }
-        return super.onTouchEvent(e);
-    }
 
 
     private boolean isEnableRefresh() {

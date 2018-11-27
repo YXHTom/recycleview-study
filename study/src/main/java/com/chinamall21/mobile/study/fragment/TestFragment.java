@@ -28,6 +28,7 @@ import java.util.List;
 
 
 public class TestFragment extends Fragment {
+
     private String mString;
     private ImageView mImageView;
 
@@ -51,15 +52,7 @@ public class TestFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_test, container, false);
         RecyclerView rv = view.findViewById(R.id.rv);
         mImageView = view.findViewById(R.id.image);
-//        Bitmap resource = BitmapFactory.decodeResource(getResources(), R.mipmap.see);
-//        Bitmap bitmap = decodeBitmapFromResource(getResources(), R.mipmap.see, 100, 100);
-//        LogUtils.LogE(bitmap.getByteCount()+"k");
-//        LogUtils.LogE(resource.getByteCount()+"k");
-//        mImageView.setImageBitmap(bitmap);
-
-
         //192560
-
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 30; i++) {

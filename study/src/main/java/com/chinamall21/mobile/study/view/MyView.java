@@ -15,6 +15,7 @@ import com.chinamall21.mobile.study.utils.LogUtils;
 
 
 public class MyView extends View {
+
     public MyView(Context context) {
         this(context, null);
     }
@@ -36,6 +37,7 @@ public class MyView extends View {
                 LogUtils.LogE("MyView dispatchTouchEvent ACTION_UP");
                 break;
         }
+
         return super.dispatchTouchEvent(event);
     }
 

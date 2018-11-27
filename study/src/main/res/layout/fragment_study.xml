@@ -30,5 +30,32 @@
             android:id="@+id/bt4"
             android:text="pullrefresh"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt5"
+            android:text="Layoutmanger"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt6"
+            android:text="Toolbar"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt7"
+            android:text="circle"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt8"
+            android:text="retrofit"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt9"
+            android:text="path"/>
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

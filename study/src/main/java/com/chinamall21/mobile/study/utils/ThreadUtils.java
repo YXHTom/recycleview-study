@@ -31,8 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class ThreadUtils extends ThreadPoolExecutor {
 
     //五个参数的构造函数
-    /**
-     * @param corePoolSize    线程池新建的时候,如果当前线程的总数小于corePoolSize,则新建的是核心线程,如果超过corePoolSize则是非核心线程
+    /**  * @param corePoolSize    线程池新建的时候,如果当前线程的总数小于corePoolSize,则新建的是核心线程,如果超过corePoolSize则是非核心线程
      *                        核心线程默认情况下会一直存活在线程池中,即使这个核心线程啥也不干(闲置状态)
      *                        如果指定ThreadPoolExecutor的allowCoreThreadTimeOut这个属性为true,那么核心线程如果不干活的话(闲置)的话,超过一定时间
      *                        (由下面参数决定),核心线程就会被销毁
@@ -40,6 +39,7 @@ public class ThreadUtils extends ThreadPoolExecutor {
      * @param maximumPoolSize 该线程池中线程总数最大值 线程总数 = 核心线程+非核心线程
      *
      * @param keepAliveTime   线程池中非核心线程的闲置时长 非核心线程如果闲置超过这个值,该线程就会被销毁
+
      *
      * @param unit            keepAliveTime的单位，TimeUnit是一个枚举类型，其包括 NANOSECONDS ： 1微毫秒 = 1微秒 / 1000
      *                        MICROSECONDS ： 1微秒 = 1毫秒 / 1000
