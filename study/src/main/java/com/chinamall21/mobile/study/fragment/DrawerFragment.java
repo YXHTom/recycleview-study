@@ -13,15 +13,13 @@ import com.chinamall21.mobile.study.base.BaseFragment;
 
 public class DrawerFragment extends BaseFragment {
 
-    public static DrawerFragment newInstance(){
+    public static DrawerFragment newInstance() {
         DrawerFragment fragment = new DrawerFragment();
         return fragment;
     }
 
     @Override
-    protected void initView(View rootView) {
-
-    }
+    protected void initView(View rootView) {}
 
     @Override
     public int getLayoutId() {

@@ -18,7 +18,6 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.chinamall21.mobile.study.R;
-import com.chinamall21.mobile.study.utils.LogUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,14 +50,13 @@ public class ReFreshParent extends LinearLayout implements NestedScrollingParent
     private ValueAnimator mDownAnim;
 
     private enum STATUS {
-        //刷新中,下拉刷新，释放刷新
+        //刷新中,下拉刷新,释放刷新
         REFRESHING, PULLREFRESH, RELEASEREFRESH
     }
 
     //当前刷新状态
     private STATUS mStatus = STATUS.PULLREFRESH;
     private STATUS mLastStatus;
-
 
     public ReFreshParent(Context context) {
         this(context, null);
@@ -72,16 +70,13 @@ public class ReFreshParent extends LinearLayout implements NestedScrollingParent
         mTvTip = view.findViewById(R.id.tv_tip);
         mArrow = view.findViewById(R.id.iv_arrow);
         mTvTime = view.findViewById(R.id.tv_time);
-
         addView(view);
-
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         mHeader.layout(0, -mHeaderHeight, getWidth(), 0);
         mContent.layout(0, 0, getWidth(), getBottom());
-        LogUtils.LogE("getBottom =" + getBottom());
     }
 
     @Override
@@ -167,14 +162,12 @@ public class ReFreshParent extends LinearLayout implements NestedScrollingParent
             switch (status) {
                 case PULLREFRESH:
                     if (mLastStatus != null) {
-                        LogUtils.LogE("PULLREFRESH");
                         mTvTip.setText("下拉刷新");
                         mDownAnim.start();
                     }
 
                     break;
                 case REFRESHING:
-                    LogUtils.LogE("REFRESHING");
                     mTvTip.setText("正在刷新");
                     mProgress.setVisibility(VISIBLE);
                     mArrow.setVisibility(INVISIBLE);
@@ -196,7 +189,6 @@ public class ReFreshParent extends LinearLayout implements NestedScrollingParent
                     break;
 
                 case RELEASEREFRESH:
-                    LogUtils.LogE("RELEASEREFRESH");
                     mTvTip.setText("释放刷新");
                     mUpAnim.start();
                     break;

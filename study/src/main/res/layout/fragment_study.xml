@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt4"
-            android:text="pullrefresh"/>
+            android:text="下拉刷新"/>
 
         <Button
             android:layout_width="match_parent"
@@ -46,16 +46,41 @@
             android:layout_height="wrap_content"
             android:id="@+id/bt7"
             android:text="circle"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt8"
             android:text="retrofit"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt9"
             android:text="path"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt10"
+            android:text="layout"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt11"
+            android:text="bitmap"/>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt12"
+            android:text="drawable"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt13"
+            android:text="图片浏览"/>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

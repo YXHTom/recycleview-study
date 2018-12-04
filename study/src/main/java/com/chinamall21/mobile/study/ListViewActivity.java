@@ -32,11 +32,9 @@ public class ListViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
         Intent intent = getIntent();
-
         mListView = findViewById(R.id.lv);
         mImgList = Arrays.asList(Images.imageUrls);
         mListView.setAdapter(new ImageAdapter());
-
     }
 
     private class ImageAdapter extends BaseAdapter {
@@ -78,7 +76,6 @@ public class ListViewActivity extends AppCompatActivity {
 
         class ViewHolder {
             ImageView imageView;
-
         }
     }
 

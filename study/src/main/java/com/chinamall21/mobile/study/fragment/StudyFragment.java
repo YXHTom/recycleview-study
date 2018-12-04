@@ -18,7 +18,6 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
         return fragment;
     }
 
-
     @Override
     protected void initView(View rootView) {
         rootView.findViewById(R.id.bt1).setOnClickListener(this);
@@ -30,7 +29,10 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
         rootView.findViewById(R.id.bt7).setOnClickListener(this);
         rootView.findViewById(R.id.bt8).setOnClickListener(this);
         rootView.findViewById(R.id.bt9).setOnClickListener(this);
-
+        rootView.findViewById(R.id.bt10).setOnClickListener(this);
+        rootView.findViewById(R.id.bt11).setOnClickListener(this);
+        rootView.findViewById(R.id.bt12).setOnClickListener(this);
+        rootView.findViewById(R.id.bt13).setOnClickListener(this);
     }
 
     @Override
@@ -40,7 +42,7 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt1:
                 addFragment(MainFragment.newInstance());
                 break;
@@ -68,7 +70,18 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
             case R.id.bt9:
                 addFragment(PathFragment.newInstance());
                 break;
-
+            case R.id.bt10:
+                addFragment(LayoutFragment.newInstance());
+                break;
+            case R.id.bt11:
+                addFragment(BitmapFragment.newInstance());
+                break;
+            case R.id.bt12:
+                addFragment(DrawableFragment.newInstance());
+                break;
+            case R.id.bt13:
+                addFragment(ScaleImageFragment.newInstance());
+                break;
         }
     }
 }
