@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt5"
-            android:text="Layoutmanger"/>
+            android:text="自定义Layoutmanger"/>
 
         <Button
             android:layout_width="match_parent"
@@ -82,5 +82,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/bt13"
             android:text="图片浏览"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt14"
+            android:text="OKHTTP"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt15"
+            android:text="bt15"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt16"
+            android:text="animView"/>
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

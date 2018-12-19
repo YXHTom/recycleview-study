@@ -22,6 +22,7 @@ import android.widget.ImageView;
 public class MyZoomImageView extends ImageView implements View.OnTouchListener, ScaleGestureDetector.OnScaleGestureListener {
 
     private Matrix mMatrix = new Matrix();
+
     private float mScale;
     private ScaleGestureDetector mScaleGestureDetector;
     private GestureDetector mGestureDetector;

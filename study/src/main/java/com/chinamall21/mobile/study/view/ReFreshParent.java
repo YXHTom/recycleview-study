@@ -168,6 +168,7 @@ public class ReFreshParent extends LinearLayout implements NestedScrollingParent
 
                     break;
                 case REFRESHING:
+                    scrollTo(0, -mHeaderHeight);
                     mTvTip.setText("正在刷新");
                     mProgress.setVisibility(VISIBLE);
                     mArrow.setVisibility(INVISIBLE);

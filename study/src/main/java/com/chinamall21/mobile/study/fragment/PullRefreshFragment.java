@@ -21,8 +21,7 @@ import java.util.List;
  */
 
 
-public class PullRefreshFragment extends BaseFragment
-{
+public class PullRefreshFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private ReFreshParent mReFreshParent;
@@ -59,7 +58,7 @@ public class PullRefreshFragment extends BaseFragment
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mCommonAdapter = new CommonAdapter(mList));
+        mRecyclerView.setAdapter(mCommonAdapter = new CommonAdapter(mList,R.layout.item_tv));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
     }

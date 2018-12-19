@@ -14,14 +14,16 @@ import java.util.List;
 
 
 public class CommonAdapter extends BaseAdapter<String> {
+    private int mResId = R.layout.item_tv_flow;
 
-    public CommonAdapter(List<String> datas) {
+    public CommonAdapter(List<String> datas,int resId) {
         super(datas);
+        mResId = resId;
     }
 
     @Override
     protected int getItemLayout() {
-        return R.layout.item_tv;
+        return mResId;
     }
 
     @Override

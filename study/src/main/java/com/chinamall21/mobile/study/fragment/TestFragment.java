@@ -123,7 +123,7 @@ public class TestFragment extends Fragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_tv, parent, false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_tv_vertical, parent, false);
             return new ViewHolder(view);
         }
 

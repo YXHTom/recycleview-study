@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chinamall21.mobile.study.utils.LogUtils;
+
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LogUtils.LogE("onCreateViewHolder");
         View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayout(), parent, false);
         return new MyHolder(view);
     }
@@ -41,6 +44,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        LogUtils.LogE("onBindViewHolder+"+position);
         MyHolder myHolder = (MyHolder) holder;
         myHolder.setData(position);
     }

@@ -49,12 +49,11 @@ public class ScaleImageFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
                 mTextView.setText((position + 1) + "/" +  Images.imageUrls.length);
+
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
     }
 

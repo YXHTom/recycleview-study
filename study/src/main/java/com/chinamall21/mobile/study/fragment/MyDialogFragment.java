@@ -17,7 +17,6 @@ import com.chinamall21.mobile.study.R;
  * author：Created by xusong on 2018/11/16 18:42.
  */
 
-
 public class MyDialogFragment extends DialogFragment {
     @Nullable
     @Override

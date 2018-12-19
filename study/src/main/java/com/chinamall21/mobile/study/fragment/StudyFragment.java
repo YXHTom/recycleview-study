@@ -33,6 +33,9 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
         rootView.findViewById(R.id.bt11).setOnClickListener(this);
         rootView.findViewById(R.id.bt12).setOnClickListener(this);
         rootView.findViewById(R.id.bt13).setOnClickListener(this);
+        rootView.findViewById(R.id.bt14).setOnClickListener(this);
+        rootView.findViewById(R.id.bt15).setOnClickListener(this);
+        rootView.findViewById(R.id.bt16).setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +84,15 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.bt13:
                 addFragment(ScaleImageFragment.newInstance());
+                break;
+            case R.id.bt14:
+                addFragment(OKHttpFragment.newInstance());
+                break;
+            case R.id.bt15:
+                addFragment(OKHttpFragment.newInstance());
+                break;
+            case R.id.bt16:
+                addFragment(ViewFragment.newInstance());
                 break;
         }
     }
