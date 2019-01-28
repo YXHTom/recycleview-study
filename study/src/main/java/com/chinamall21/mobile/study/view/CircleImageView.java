@@ -59,8 +59,7 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
      * @param min
      * @return
      */
-    private Bitmap createCircleImage(Bitmap source, int min)
-    {
+    private Bitmap createCircleImage(Bitmap source, int min) {
         final Paint paint = new Paint();
         paint.setAntiAlias(true);
         Bitmap target = Bitmap.createBitmap(min, min, Bitmap.Config.ARGB_8888);

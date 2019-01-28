@@ -9,7 +9,7 @@ import android.util.Log;
 
 
 public class LogUtils {
-    public static void LogE(String msg){
-        Log.e("Study= ",msg);
+    public static void LogE(Object msg){
+        Log.e("Study= ",msg.toString());
     }
 }

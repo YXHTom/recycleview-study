@@ -28,8 +28,8 @@ public class LayoutMangerFragment extends BaseFragment implements View.OnClickLi
          rootView.findViewById(R.id.bt7).setOnClickListener(this);
          rootView.findViewById(R.id.bt8).setOnClickListener(this);
          rootView.findViewById(R.id.bt9).setOnClickListener(this);
+         rootView.findViewById(R.id.bt10).setOnClickListener(this);
     }
-
 
     @Override
     public int getLayoutId() {
@@ -41,7 +41,6 @@ public class LayoutMangerFragment extends BaseFragment implements View.OnClickLi
         switch (v.getId()){
             case R.id.bt1:
                 addFragment(MyLayoutMangerFragment.newInstance(1));
-
                 break;
             case R.id.bt2:
                 addFragment(MyLayoutMangerFragment.newInstance(2));
@@ -67,7 +66,10 @@ public class LayoutMangerFragment extends BaseFragment implements View.OnClickLi
             case R.id.bt9:
                 addFragment(MyLayoutMangerFragment.newInstance(9));
                 break;
-        }
+            case R.id.bt10:
+                addFragment(GalleryFragment.newInstance());
+                break;
 
+        }
     }
 }

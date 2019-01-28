@@ -30,9 +30,6 @@ public class GoodsBean {
 
     @Override
     public String toString() {
-        return "GoodsBean{" +
-                "position=" + position +
-                ", mTypeBeanList=" + mTypeBeanList +
-                '}';
+        return "GoodsBean{" + "position=" + position + ", mTypeBeanList=" + mTypeBeanList +'}';
     }
 }

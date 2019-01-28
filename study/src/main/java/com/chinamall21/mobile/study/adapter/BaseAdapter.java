@@ -29,8 +29,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
     public void setDatas(List<T> datas) {
         mDatas = datas;
         notifyDataSetChanged();
-
-
     }
 
     @Override
@@ -55,11 +53,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
             return mDatas.size();
         }
         return 0;
-
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
-
         public MyHolder(View itemView) {
             super(itemView);
         }
@@ -70,5 +66,4 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
     }
 
     public abstract void convert(View itemView, int position);
-
 }

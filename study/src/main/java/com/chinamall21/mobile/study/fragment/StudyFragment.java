@@ -25,17 +25,20 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
         rootView.findViewById(R.id.bt3).setOnClickListener(this);
         rootView.findViewById(R.id.bt4).setOnClickListener(this);
         rootView.findViewById(R.id.bt5).setOnClickListener(this);
-        rootView.findViewById(R.id.bt6).setOnClickListener(this);
         rootView.findViewById(R.id.bt7).setOnClickListener(this);
         rootView.findViewById(R.id.bt8).setOnClickListener(this);
         rootView.findViewById(R.id.bt9).setOnClickListener(this);
         rootView.findViewById(R.id.bt10).setOnClickListener(this);
-        rootView.findViewById(R.id.bt11).setOnClickListener(this);
         rootView.findViewById(R.id.bt12).setOnClickListener(this);
         rootView.findViewById(R.id.bt13).setOnClickListener(this);
         rootView.findViewById(R.id.bt14).setOnClickListener(this);
         rootView.findViewById(R.id.bt15).setOnClickListener(this);
         rootView.findViewById(R.id.bt16).setOnClickListener(this);
+        rootView.findViewById(R.id.bt17).setOnClickListener(this);
+        rootView.findViewById(R.id.bt18).setOnClickListener(this);
+        rootView.findViewById(R.id.bt19).setOnClickListener(this);
+        rootView.findViewById(R.id.bt20).setOnClickListener(this);
+        rootView.findViewById(R.id.bt21).setOnClickListener(this);
     }
 
     @Override
@@ -61,9 +64,6 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
             case R.id.bt5:
                 addFragment(LayoutMangerFragment.newInstance());
                 break;
-            case R.id.bt6:
-                addFragment(JavaFragment.newInstance());
-                break;
             case R.id.bt7:
                 addFragment(ImageFragment.newInstance());
                 break;
@@ -75,9 +75,6 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.bt10:
                 addFragment(LayoutFragment.newInstance());
-                break;
-            case R.id.bt11:
-                addFragment(BitmapFragment.newInstance());
                 break;
             case R.id.bt12:
                 addFragment(DrawableFragment.newInstance());
@@ -94,6 +91,22 @@ public class StudyFragment extends BaseFragment implements View.OnClickListener 
             case R.id.bt16:
                 addFragment(ViewFragment.newInstance());
                 break;
+            case R.id.bt17:
+                addFragment(GlideFragment.newInstance());
+                break;
+            case R.id.bt18:
+                addFragment(NumberProgressFragment.newInstance());
+                break;
+            case R.id.bt19:
+                addFragment(ConstraintLayoutFragment.newInstance());
+                break;
+            case R.id.bt20:
+                addFragment(ImageDialogFragment.newInstance());
+                break;
+            case R.id.bt21:
+                addFragment(EventBusFragment.newInstance());
+                break;
         }
     }
+
 }

@@ -1,21 +1,19 @@
 package com.chinamall21.mobile.study.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.ImageView;
-
-import com.chinamall21.mobile.study.utils.LogUtils;
 
 /**
  * desc：
@@ -23,21 +21,22 @@ import com.chinamall21.mobile.study.utils.LogUtils;
  */
 
 
-public class ZoomImageView extends ImageView implements ScaleGestureDetector.OnScaleGestureListener,
-        View.OnTouchListener{
+@SuppressLint("AppCompatCustomView")
+public class ZoomImageView extends ImageView {
+
     private Matrix mMatrix = new Matrix();
-    private float mScale;
     private ScaleGestureDetector mScaleGestureDetector;
     private GestureDetector mGestureDetector;
     private static final float MAX_SCALE = 4.0f;
+    private float MIN_SCALE = 1.0f;
     private final float[] matrixValues = new float[9];
-    private boolean isCheckLeftAndRight;
-    private boolean isCheckTopAndBottom;
-    private boolean isCanDrag;
-    private float mLastX;
-    private float mLastY;
-    private int lastPointerCount;
-    private int mTouchSlop;
+    private boolean mIsScale;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            setImageMatrix(mMatrix);
+        }
+    };
 
     public ZoomImageView(Context context) {
         this(context, null);
@@ -46,165 +45,125 @@ public class ZoomImageView extends ImageView implements ScaleGestureDetector.OnS
     public ZoomImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setScaleType(ScaleType.MATRIX);
-
-        setOnTouchListener(this);
-        mTouchSlop = ViewConfiguration.getTouchSlop();
-        mScaleGestureDetector = new ScaleGestureDetector(context, this);
-        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+        final MyRunnable runnable = new MyRunnable();
+        mScaleGestureDetector = new ScaleGestureDetector(context, new ScaleGestureDetector.OnScaleGestureListener() {
             @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return super.onSingleTapUp(e);
+            public boolean onScale(ScaleGestureDetector detector) {
+                float factor = detector.getScaleFactor();
+
+                if ((factor > 1 && getScale() <= MAX_SCALE) || (factor < 1 && getScale() > MIN_SCALE)) {
+
+                    mMatrix.postScale(factor, factor, getWidth() / 2, getHeight() / 2);
+                    setImageMatrix(mMatrix);
+                }
+                return true;
             }
 
             @Override
+            public boolean onScaleBegin(ScaleGestureDetector detector) {
+                return true;
+            }
+
+            @Override
+            public void onScaleEnd(ScaleGestureDetector detector) {
+
+            }
+        });
+
+        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                post(runnable);
+                return super.onDoubleTap(e);
+            }
+
+            //👈>0 👆>0
+            @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 
+                RectF rectF = getMatrixRectF();
+
+                if (rectF.width() > getWidth() || rectF.height() > getHeight()) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                if (distanceX > 0 && rectF.right == getWidth()) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                if (distanceX < 0 && rectF.left == 0) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+
+                //X>0左 y>0上
+                if (e2.getPointerCount() == 1 && (rectF.left <= 0 || rectF.right >= getWidth() ||
+                        rectF.top <= 0 || rectF.bottom >= getHeight())) {
+                    //左滑
+                    if (distanceX > 0 && rectF.right <= getWidth()) {
+                        distanceX = rectF.right - getWidth();
+                    }
+                    //右滑
+                    if (distanceX < 0 && rectF.left >= 0) {
+                        distanceX = rectF.left;
+                    }
+                    //上滑
+                    if (distanceY > 0 && rectF.bottom <= getHeight()) {
+                        distanceY = rectF.bottom - getHeight();
+                    }
+                    //下滑
+                    if (distanceY < 0 && rectF.top >= 0) {
+                        distanceY = rectF.top;
+                    }
+                    if (rectF.width() < getWidth()) {
+                        distanceX = 0;
+                    }
+                    if (rectF.height() < getHeight()) {
+                        distanceY = 0;
+                    }
+
+                    mMatrix.postTranslate(-distanceX, -distanceY);
+                    setImageMatrix(mMatrix);
+                }
                 return super.onScroll(e1, e2, distanceX, distanceY);
             }
 
             @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-                return super.onFling(e1, e2, velocityX, velocityY);
+            public boolean onDown(MotionEvent e) {
+                RectF rectF = getMatrixRectF();
+                if (rectF.width() > getWidth() || rectF.height() > getHeight()) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                return super.onDown(e);
             }
+        });
 
+        setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                return super.onDoubleTap(e);
+            public boolean onTouch(View v, MotionEvent event) {
+                mScaleGestureDetector.onTouchEvent(event);
+                mGestureDetector.onTouchEvent(event);
+                return true;
             }
         });
     }
 
-    @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        if (getDrawable() == null) {
-            return true;
-        }
-        float scaleFactor = detector.getScaleFactor();
-        float scale = getScale();
-        if ((scaleFactor > 1.0f && scale < MAX_SCALE) ||
-                (scaleFactor < 1.0f && scale > mScale)) {
+    class MyRunnable implements Runnable {
 
-            mMatrix.postScale(scaleFactor, scaleFactor, getWidth() / 2, getHeight() / 2);
-            setImageMatrix(mMatrix);
-        }
-        return true;
-    }
+        @Override
+        public void run() {
+            if (mIsScale) {
+                mMatrix.postScale(.93f, .93f, getWidth() / 2, getHeight() / 2);
 
-    @Override
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-        return true;
-    }
-
-    @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {
-    }
-
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        mScaleGestureDetector.onTouchEvent(event);
-
-        float x = 0, y = 0;
-        // 拿到触摸点的个数
-        final int pointerCount = event.getPointerCount();
-        // 得到多个触摸点的x与y均值
-        for (int i = 0; i < pointerCount; i++)
-        {
-            x += event.getX(i);
-            y += event.getY(i);
-        }
-        x = x / pointerCount;
-        y = y / pointerCount;
-
-        /**
-         * 每当触摸点发生变化时，重置mLasX , mLastY
-         */
-        if (pointerCount != lastPointerCount)
-        {
-            isCanDrag = false;
-            mLastX = x;
-            mLastY = y;
-        }
-
-
-        lastPointerCount = pointerCount;
-
-        switch (event.getAction())
-        {
-            case MotionEvent.ACTION_MOVE:
-                float dx = x - mLastX;
-                float dy = y - mLastY;
-
-                if (!isCanDrag)
-                {
-                    isCanDrag = isCanDrag(dx, dy);
+            } else {
+                mMatrix.postScale(1.07f, 1.07f, getWidth() / 2, getHeight() / 2);
+            }
+            mHandler.sendEmptyMessage(0);
+            if ((mIsScale && getScale() >= MIN_SCALE) || (!mIsScale && getScale() < MAX_SCALE)) {
+                ZoomImageView.this.postDelayed(this, 10);
+            } else {
+                if (mIsScale) {
+                    //moveCenter(0, 0);
                 }
-                if (isCanDrag)
-                {
-                    RectF rectF = getMatrixRectF();
-                    if (getDrawable() != null)
-                    {
-                        isCheckLeftAndRight = isCheckTopAndBottom = true;
-                        // 如果宽度小于屏幕宽度，则禁止左右移动
-                        if (rectF.width() < getWidth())
-                        {
-                            dx = 0;
-                            isCheckLeftAndRight = false;
-                        }
-                        // 如果高度小雨屏幕高度，则禁止上下移动
-                        if (rectF.height() < getHeight())
-                        {
-                            dy = 0;
-                            isCheckTopAndBottom = false;
-                        }
-                        LogUtils.LogE("dx ="+dx +" dy ="+dy);
-                        mMatrix.postTranslate(dx, dy);
-                        checkMatrixBounds();
-                        setImageMatrix(mMatrix);
-                    }
-                }
-                mLastX = x;
-                mLastY = y;
-                break;
-
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                lastPointerCount = 0;
-                break;
-        }
-
-        return true;
-
-    }
-
-    private float getScale() {
-        mMatrix.getValues(matrixValues);
-        return matrixValues[Matrix.MSCALE_X];
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        Drawable drawable = getDrawable();
-        if (drawable != null) {
-            float scale = 1.0f;
-            int intrinsicWidth = drawable.getIntrinsicWidth();
-            int intrinsicHeight = drawable.getIntrinsicHeight();
-            if (intrinsicWidth > getWidth() && intrinsicHeight < getHeight()) {
-                scale = intrinsicWidth * 1.0f / getWidth();
+                mIsScale = !mIsScale;
             }
-            if (intrinsicHeight > getHeight() && intrinsicWidth < getWidth()) {
-                scale = intrinsicHeight * 1.0f / getHeight();
-            }
-            if (intrinsicWidth > getWidth() && intrinsicHeight > getHeight()) {
-                scale = Math.min(intrinsicWidth * 1.0f / getWidth(), intrinsicHeight * 1.0f / getHeight());
-            }
-            mScale = scale;
-            mMatrix.setScale(scale, scale);
-            mMatrix.setTranslate((getWidth() - intrinsicWidth) / 2,
-                    (getHeight() - intrinsicHeight) / 2);
-            setImageMatrix(mMatrix);
         }
     }
 
@@ -222,44 +181,60 @@ public class ZoomImageView extends ImageView implements ScaleGestureDetector.OnS
         }
         return rect;
     }
-    private void checkMatrixBounds()
-    {
-        RectF rect = getMatrixRectF();
 
-        float deltaX = 0, deltaY = 0;
-        final float viewWidth = getWidth();
-        final float viewHeight = getHeight();
-        // 判断移动或缩放后，图片显示是否超出屏幕边界
-        if (rect.top > 0 && isCheckTopAndBottom)
-        {
-            deltaY = -rect.top;
-        }
-        if (rect.bottom < viewHeight && isCheckTopAndBottom)
-        {
-            deltaY = viewHeight - rect.bottom;
-        }
-        if (rect.left > 0 && isCheckLeftAndRight)
-        {
-            deltaX = -rect.left;
-        }
-        if (rect.right < viewWidth && isCheckLeftAndRight)
-        {
-            deltaX = viewWidth - rect.right;
-        }
-        mMatrix.postTranslate(deltaX, deltaY);
+    private float getScale() {
+        mMatrix.getValues(matrixValues);
+        return matrixValues[Matrix.MSCALE_X];
     }
 
-    /**
-     * 是否是推动行为
-     *
-     * @param dx
-     * @param dy
-     * @return
-     */
-    private boolean isCanDrag(float dx, float dy) {
-        return Math.sqrt((dx * dx) + (dy * dy)) >= mTouchSlop;
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        getParent().requestDisallowInterceptTouchEvent(true);
+        moveAndScale();
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
+    private void moveAndScale() {
+        int intrinsicWidth = 0;
+        int intrinsicHeight = 0;
+        if (getDrawable() != null) {
+            intrinsicWidth = getDrawable().getIntrinsicWidth();
+            intrinsicHeight = getDrawable().getIntrinsicHeight();
+
+        }
+        float scale = 1.0f;
+        if (intrinsicWidth > getWidth() && intrinsicHeight < getHeight()) {
+            scale = (getWidth() * 1.0f) / (intrinsicWidth * 1.0f);
+        }
+        if (intrinsicWidth < getWidth() && intrinsicHeight > getHeight()) {
+            scale = (getHeight() * 1.0f) / (intrinsicHeight * 1.0f);
+        }
+
+        if (intrinsicWidth > getWidth() && intrinsicHeight > getHeight()) {
+            scale = Math.min((getWidth() * 1.0f) / (intrinsicWidth * 1.0f),
+                    (getHeight() * 1.0f) / (intrinsicHeight * 1.0f));
+        }
+        if (intrinsicWidth < getWidth() && intrinsicHeight < getHeight()) {
+            scale = Math.min((getWidth() * 1.0f) / (intrinsicWidth * 1.0f),
+                    (getHeight() * 1.0f) / (intrinsicHeight * 1.0f));
+        }
+        MIN_SCALE = scale;
+        if (scale < 1) {
+            mMatrix.postScale(scale, scale);
+            mMatrix.postTranslate(0, getHeight() / 2 - (intrinsicHeight * scale) / 2);
+        } else {
+            mMatrix.postTranslate((getWidth() - intrinsicWidth) / 2,
+                    (getHeight() - intrinsicHeight) / 2);
+            mMatrix.postScale(scale, scale, getWidth() / 2, getHeight() / 2);
+        }
 
 
+        setImageMatrix(mMatrix);
+    }
 }

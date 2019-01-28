@@ -6,15 +6,15 @@ package com.chinamall21.mobile.study.eventBus;
  */
 
 
-public class EventBus {
+public class MyEventBus {
 
-    private static EventBus mInstance;
+    private static MyEventBus mInstance;
 
-    public static EventBus getDefault() {
+    public static MyEventBus getDefault() {
         if (mInstance == null) {
-            synchronized (EventBus.class) {
+            synchronized (MyEventBus.class) {
                 if (mInstance == null) {
-                    mInstance = new EventBus();
+                    mInstance = new MyEventBus();
                 }
             }
         }

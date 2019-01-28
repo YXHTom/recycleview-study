@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -28,7 +30,15 @@ public class MyZoomImageView extends ImageView implements View.OnTouchListener, 
     private GestureDetector mGestureDetector;
     private final float[] matrixValues = new float[9];
     private static final float MAX_SCALE = 4.5f;
+
     private boolean mIsScale;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            setImageMatrix(mMatrix);
+        }
+    };
 
     public MyZoomImageView(Context context) {
         this(context, null);
@@ -103,12 +113,12 @@ public class MyZoomImageView extends ImageView implements View.OnTouchListener, 
             } else {
                 mMatrix.postScale(1.07f, 1.07f, getWidth() / 2, getHeight() / 2);
             }
-            setImageMatrix(mMatrix);
+            mHandler.sendEmptyMessage(0);
             if ((mIsScale && getScale() >= 1.0f) || (!mIsScale && getScale() < MAX_SCALE)) {
                 MyZoomImageView.this.postDelayed(this, 10);
             } else {
                 if (mIsScale) {
-                    moveCenter();
+                    moveCenter(0, 0);
                 }
                 mIsScale = !mIsScale;
 
@@ -123,15 +133,14 @@ public class MyZoomImageView extends ImageView implements View.OnTouchListener, 
         }
         float scaleFactor = detector.getScaleFactor();
         float scale = getScale();
-
         if ((scaleFactor > 1.0f && scale < MAX_SCALE) ||
-                (scaleFactor < 1.0f && scale > mScale)) {
+                (scaleFactor < 1.0f) && scale >= mScale) {
 
             mMatrix.postScale(scaleFactor, scaleFactor, getWidth() / 2, getHeight() / 2);
             setImageMatrix(mMatrix);
 
             if ((scaleFactor < 1.0f && scale <= 1.5f)) {
-                moveCenter();
+               // moveCenter(0, 0);
             }
         }
         return true;
@@ -143,7 +152,8 @@ public class MyZoomImageView extends ImageView implements View.OnTouchListener, 
     }
 
     @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {}
+    public void onScaleEnd(ScaleGestureDetector detector) {
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -160,55 +170,39 @@ public class MyZoomImageView extends ImageView implements View.OnTouchListener, 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        moveCenter();
+        moveCenter(0, 0);
     }
 
-    private void moveCenter() {
-        Drawable drawable = getDrawable();
-        if (drawable != null) {
-            float scale = 1.0f;
-            int intrinsicWidth = drawable.getIntrinsicWidth();
-            int intrinsicHeight = drawable.getIntrinsicHeight();
-
-            if (intrinsicWidth > getWidth() && intrinsicHeight < getHeight()) {
-                scale = intrinsicWidth * 1.0f / getWidth();
-            }
-            if (intrinsicHeight > getHeight() && intrinsicWidth < getWidth()) {
-                scale = intrinsicHeight * 1.0f / getHeight();
-            }
-            if (intrinsicWidth > getWidth() && intrinsicHeight > getHeight()) {
-                scale = Math.min(intrinsicWidth * 1.0f / getWidth(), intrinsicHeight * 1.0f / getHeight());
-            }
-            mScale = scale;
-            mMatrix.setScale(scale, scale);
-            mMatrix.setTranslate((getWidth() - intrinsicWidth) / 2,
-                    (getHeight() - intrinsicHeight) / 2);
-            setImageMatrix(mMatrix);
-        }
-    }
 
     //网络加载getDrawable为null
     public void moveCenter(int width, int height) {
+        int intrinsicWidth;
+        int intrinsicHeight;
+        if (getDrawable() != null) {
+            intrinsicWidth = getDrawable().getIntrinsicWidth();
+            intrinsicHeight = getDrawable().getIntrinsicHeight();
+        } else {
+            intrinsicWidth = width;
+            intrinsicHeight = height;
+        }
 
         float scale = 1.0f;
-        int intrinsicWidth = width;
-        int intrinsicHeight = height;
 
         if (intrinsicWidth > getWidth() && intrinsicHeight < getHeight()) {
-            scale = intrinsicWidth * 1.0f / getWidth();
+            scale = getWidth() *1.0f/ intrinsicWidth * 1.0f;
         }
         if (intrinsicHeight > getHeight() && intrinsicWidth < getWidth()) {
-            scale = intrinsicHeight * 1.0f / getHeight();
+            scale = getHeight() *1.0f/ intrinsicHeight * 1.0f;
         }
         if (intrinsicWidth > getWidth() && intrinsicHeight > getHeight()) {
             scale = Math.min(intrinsicWidth * 1.0f / getWidth(), intrinsicHeight * 1.0f / getHeight());
         }
         mScale = scale;
-        mMatrix.setScale(scale, scale);
+
         mMatrix.setTranslate((getWidth() - intrinsicWidth) / 2,
                 (getHeight() - intrinsicHeight) / 2);
-        setImageMatrix(mMatrix);
-
+        //setImageMatrix(mMatrix);
+        mHandler.sendEmptyMessage(0);
     }
 
     /**
@@ -226,4 +220,9 @@ public class MyZoomImageView extends ImageView implements View.OnTouchListener, 
         return rect;
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 }

@@ -43,6 +43,7 @@ public class VerticalLayoutRecycledAnimManger extends RecyclerView.LayoutManager
         //屏幕上可见的itemView个数
         int visible = getVerticalSpace() / itemHeight;
 
+
         int temp = 0;
         for (int i = 0; i < getItemCount(); i++) {
             Rect rect = new Rect(getPaddingLeft(), temp, itemWidth, itemHeight + temp);
@@ -51,7 +52,7 @@ public class VerticalLayoutRecycledAnimManger extends RecyclerView.LayoutManager
             temp += itemHeight;
         }
         //摆放可见的itemview
-        for (int i = 0; i < visible; i++) {
+        for (int i = 0; i <= visible; i++) {
             Rect rect = mRectArray.get(i);
             View child = recycler.getViewForPosition(i);
             addView(child);

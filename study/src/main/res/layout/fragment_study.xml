@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -13,22 +12,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt1"
-            android:text="click1"/>
+            android:text="CoordinatorLayout"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt2"
-            android:text="click2"/>
+            android:text="viewDragHelper"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt3"
-            android:text="click3"/>
+            android:text="MyDrawerLayout"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt4"
-            android:text="下拉刷新"/>
+            android:text="Recycleview下拉刷新"/>
 
         <Button
             android:layout_width="match_parent"
@@ -39,13 +38,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bt6"
-            android:text="Toolbar"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/bt7"
-            android:text="circle"/>
+            android:text="circleImageview"/>
 
         <Button
             android:layout_width="match_parent"
@@ -64,12 +58,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/bt10"
             android:text="layout"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/bt11"
-            android:text="bitmap"/>
 
 
         <Button
@@ -93,12 +81,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt15"
-            android:text="bt15"/>
+            android:text="okhttp"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bt16"
             android:text="animView"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt17"
+            android:text="Glide"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt18"
+            android:text="NumberProgress"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt19"
+            android:text="ConstraintLayout"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt20"
+            android:text="DialogFragment"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt21"
+            android:text="Eventbus"/>
+
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

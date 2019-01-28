@@ -31,8 +31,8 @@ public class MyLayoutMangerFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private List<String> mList;
     private int mResId;
-    private String[] mStrings = {"Android开发工程师","Java开发工程师","Php开发工程师","GO语言开发","IOS开发工程师",
-    "人工智能开发","前端开发","产品经理","大数据开发","UI设计","自定义LayoutManager","FlowLayoutManager","RecycleView"};
+    private String[] mStrings = {"Android开发工程师", "Java开发工程师", "Php开发工程师", "GO语言开发", "IOS开发工程师",
+            "人工智能开发", "前端开发", "产品经理", "大数据开发", "UI设计", "自定义LayoutManager", "FlowLayoutManager", "RecycleView"};
 
 
     public static MyLayoutMangerFragment newInstance(int type) {
@@ -42,6 +42,7 @@ public class MyLayoutMangerFragment extends BaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     protected void initView(View rootView) {
@@ -61,17 +62,17 @@ public class MyLayoutMangerFragment extends BaseFragment {
                 mRecyclerView.setLayoutManager(new VerticalLayoutRecycledAnimManger());
                 break;
             case 4:
-                mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.HORIZONTAL));
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
                 mResId = R.layout.item_tv_horizontal;
                 mRecyclerView.setLayoutManager(new HorizontalManager());
                 break;
             case 5:
-                mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.HORIZONTAL));
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
                 mResId = R.layout.item_tv_horizontal;
                 mRecyclerView.setLayoutManager(new HorizontalManagerRecycled());
                 break;
             case 6:
-                mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.HORIZONTAL));
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
                 mResId = R.layout.item_tv_horizontal;
                 mRecyclerView.setLayoutManager(new HorizontalManagerRecycledAnim());
                 break;
@@ -88,20 +89,21 @@ public class MyLayoutMangerFragment extends BaseFragment {
                 mRecyclerView.setLayoutManager(new FlowLayoutMangerRecycledAnim());
                 break;
         }
-
     }
+
+
 
     @Override
     public void loadData() {
         mList = new ArrayList<>();
-        for (int i = 0; i < 66; i++) {
-            int nextInt =new Random().nextInt(mStrings.length);
-            mList.add(mStrings[nextInt]+""+i);
+        for (int i = 0; i < 100; i++) {
+            mList.add(mStrings[new Random().nextInt(mStrings.length)]);
         }
 
-        CommonAdapter commonAdapter = new CommonAdapter(mList,mResId);
+        CommonAdapter commonAdapter = new CommonAdapter(mList, mResId);
         mRecyclerView.setAdapter(commonAdapter);
     }
+
 
     @Override
     public int getLayoutId() {

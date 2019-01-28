@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.chinamall21.mobile.study.utils.LogUtils;
+
 /**
  * desc：流失布局
  * author：Created by xusong on 2018/12/14 14:49.
@@ -14,8 +16,9 @@ public class FlowLayoutMangerRecycled extends RecyclerView.LayoutManager {
     private int mTotalHeight;
     private int mTotalMoveY;
     //默认margin值
-    private final int mDefaultMargin = 15;
+    private final int mDefaultMargin =15;
     private SparseArray<Rect> mRectArrays = new SparseArray<>();
+    private int mCount;
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
@@ -77,11 +80,12 @@ public class FlowLayoutMangerRecycled extends RecyclerView.LayoutManager {
         } else if (mTotalMoveY + travel > mTotalHeight - getVerticalSpace()) {
             travel = mTotalHeight - getVerticalSpace() - mTotalMoveY;
         }
-
         for (int i = getChildCount() - 1; i >= 0; i--) {
             View view = getChildAt(i);
             if (getDecoratedBottom(view) - travel < 0) {
+                mCount++;
                 removeAndRecycleView(view, recycler);
+                LogUtils.LogE("mCount ="+mCount);
             } else if (getDecoratedTop(view) - travel > getVerticalSpace()) {
                 removeAndRecycleView(view, recycler);
             }

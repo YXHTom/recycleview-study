@@ -73,7 +73,6 @@ public class LeftAdapter extends RecyclerView.Adapter {
                     }
 
                     if (mTypeClickListener != null) {
-
                         mDatas.get(position).setType(2);
                         notifyDataSetChanged();
                         mTypeClickListener.typeChange(position);

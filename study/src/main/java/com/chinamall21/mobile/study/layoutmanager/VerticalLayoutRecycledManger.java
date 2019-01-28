@@ -100,6 +100,7 @@ public class VerticalLayoutRecycledManger extends RecyclerView.LayoutManager {
 
         mTotalMoveY += travel;
         offsetChildrenVertical(-travel);
+
         return travel;
     }
 

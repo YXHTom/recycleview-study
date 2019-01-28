@@ -56,7 +56,6 @@ public class RAdapter extends RecyclerView.Adapter {
     }
 
 
-
     @Override
     public int getItemCount() {
         return mDatas.size();
@@ -88,7 +87,6 @@ public class RAdapter extends RecyclerView.Adapter {
             } else {
                 mCheckBox.setChecked(false);
             }
-
             mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

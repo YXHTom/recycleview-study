@@ -11,6 +11,13 @@ public class TypeBean {
     private int type;
     private String content;
 
+    public TypeBean(int type, String content) {
+        this.type = type;
+        this.content = content;
+    }
+    public TypeBean() {
+
+    }
     public int getType() {
         return type;
     }

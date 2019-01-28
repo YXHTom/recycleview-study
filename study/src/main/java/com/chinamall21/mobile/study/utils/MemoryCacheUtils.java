@@ -35,4 +35,6 @@ public class MemoryCacheUtils {
         mLruCache.put(url,bitmap);
 
     }
+
+
 }

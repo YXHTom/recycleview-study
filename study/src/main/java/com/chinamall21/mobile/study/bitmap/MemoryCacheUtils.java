@@ -2,9 +2,7 @@ package com.chinamall21.mobile.study.bitmap;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
-
 import com.chinamall21.mobile.study.utils.LogUtils;
-
 /**
  * 内存缓存
  * 在Android2.3以上,软引用和弱应用会被垃圾回收期回收的相当快,这时内存缓存就相当于没有存在,
