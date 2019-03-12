@@ -1,4 +1,5 @@
 GalleryManager:
+
 ![image](https://upload-images.jianshu.io/upload_images/5872156-1945f8fd3e2f766c.gif?imageMogr2/auto-orient/strip)
 
 列表联动:
